@@ -1,0 +1,31 @@
+ARG LARADOCK_PHP_VERSION
+ARG BASE_IMAGE_TAG_PREFIX=latest
+FROM laradock/workspace:${BASE_IMAGE_TAG_PREFIX}-${LARADOCK_PHP_VERSION}
+
+# Next, set our working directory
+WORKDIR /var/www
+
+# Copy in our dependency files.
+# We want to leave the rest of the code base out for now,
+# so Docker can build a cache of this layer,
+# and only rebuild when the dependencies of our application changes.
+COPY composer*.json ./
+
+# Install all the dependencies without running any installation scripts.
+# We skip scripts as the code base hasn't been copied in yet and script will likely fail,
+# as `php artisan` available yet.
+# This also helps us to cache previous runs and layers.
+# As long as comoser.json and composer.lock doesn't change the install will be cached.
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
+
+# Copy in our actual source code so we can run the installation scripts we need
+# At this point all the PHP packages have been installed,
+# and all that is left to do, is to run any installation scripts which depends on the code base
+COPY . .
+
+RUN chmod -R 777 /var/www/storage
+RUN chmod -R 777 /var/www/bootstrap/cache
+
+# Now that the code base and packages are all available,
+# we can run the install again, and let it run any install scripts.
+RUN composer install --no-dev --prefer-dist

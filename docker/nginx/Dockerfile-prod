@@ -1,0 +1,5 @@
+ARG COMPOSE_PROJECT_NAME
+FROM ${COMPOSE_PROJECT_NAME}_prod_workspace as workspace
+FROM ${COMPOSE_PROJECT_NAME}_nginx
+
+COPY --from=workspace /var/www/public /var/www/public

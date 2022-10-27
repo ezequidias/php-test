@@ -1,0 +1,7 @@
+ARG COMPOSE_PROJECT_NAME
+FROM ${COMPOSE_PROJECT_NAME}_prod_workspace as workspace
+FROM ${COMPOSE_PROJECT_NAME}_php-fpm
+ARG LARADOCK_PHP_VERSION
+
+COPY --from=workspace /var/www /var/www
+COPY php${LARADOCK_PHP_VERSION}.ini /usr/local/etc/php/php.ini
