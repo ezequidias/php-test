@@ -1,0 +1,1 @@
+2022/10/27 19:13:17 [emerg] 10#10: invalid port in upstream "php-fpm:" in /etc/nginx/conf.d/php.conf:1
