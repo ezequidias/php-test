@@ -34,4 +34,7 @@ Arquivos utilizados
  - App\Helpers\MessageDayOfWeekStrategy
  - App\Helpers\MessageInterface
  - App\Http\Controllers\IndexController
+ 
+ 
+![Screenshot_296](https://user-images.githubusercontent.com/25870781/198379292-9b2c8234-48c3-4296-9e32-c5e3fb1cca00.png)
 
